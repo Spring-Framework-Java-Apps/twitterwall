@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-twitter="http://www.springframework.org/schema/integration/twitter"
+	xmlns:int-mongodb="http://www.springframework.org/schema/integration/mongodb"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+  	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/mongodb
+		http://www.springframework.org/schema/integration/mongodb/spring-integration-mongodb.xsd
+		http://www.springframework.org/schema/integration/twitter
+		http://www.springframework.org/schema/integration/twitter/spring-integration-twitter.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc 
+		http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <context:property-placeholder location="classpath:/twitterwall.properties" />
+    
+	<bean id="mongoDbFactory"
+		class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+		<constructor-arg>
+			<bean class="com.mongodb.Mongo" />
+		</constructor-arg>
+		<constructor-arg value="test" />
+	</bean>
+
+	<bean id="mongoDbMessageStore"
+		class="org.springframework.integration.mongodb.store.MongoDbMessageStore">
+		<constructor-arg ref="mongoDbFactory" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${javax.persistence.jdbc.driver}"/> 
+		<property name="url" value="${javax.persistence.jdbc.url}"/> 
+		<property name="username" value="${javax.persistence.jdbc.username}"/>
+		<property name="password" value="${javax.persistence.jdbc.password}"/>
+	</bean>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+  		<property name="dataSource" ref="dataSource"/>
+  		<property name="persistenceUnitName" value="twitterclient"/>
+ 	</bean>
+
+	<!-- JPA Configuration -->
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaDialect" ref="jpaDialect" />
+	</bean>
+
+	<!-- Transactions -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<int:poller default="true" fixed-rate="500" />
+
+	<bean id="twitterTemplate"
+		class="org.springframework.social.twitter.api.impl.TwitterTemplate">
+		<constructor-arg value="${twitter.consumerKey}" />
+		<constructor-arg value="${twitter.consumerSecret}" />
+		<constructor-arg value="${twitter.accessToken}" />
+		<constructor-arg value="${twitter.accessTokenSecret}" />
+	</bean>
+
+	<jpa:repositories base-package="org.woehlke.spring" />
+	 
+	<context:component-scan base-package="org.woehlke.spring" />
+
+	<bean id="tweetEventController"
+		class="org.woehlke.spring.eai.impl.TweetEventControllerImpl" />
+
+	<int:logging-channel-adapter id="logger"
+		level="INFO"
+		expression="'Id:' + payload.id + '; Date:' + payload.createdAt + '; FromUser: ' + payload.fromUser" />
+
+	<int:channel id="controlBusChannel" />
+	<!-- See also: http://static.springsource.org/spring-integration/reference/htmlsingle/#control-bus 
+		http://www.eaipatterns.com/ControlBus.html -->
+	<int:control-bus id="controlBus" input-channel="controlBusChannel" />
+	
+	<int:channel id="twitterSearchChannel">
+		<int:queue message-store="mongoDbMessageStore" />
+	</int:channel>
+	<int:inbound-channel-adapter channel="twitterSearchChannel"
+		id="search-inbound-channel-adapter" method="requestTwitterwall"
+		ref="tweetEventController" auto-startup="true">
+		 <int:poller fixed-rate="60000" />
+	</int:inbound-channel-adapter>
+    <int:chain id="searchChain" input-channel="twitterSearchChannel" output-channel="nullChannel">
+    	<int:splitter ref="tweetEventController"
+			method="fetchTwitterwallFromSearch" />
+    	<int:filter ref="tweetEventController" method="isTweetFromSearchNotYetCached" />
+    	<int:service-activator ref="tweetEventController" method="addTwitterMessagesFromSearch" />
+    	<int:service-activator ref="tweetEventController" method="updateTaglist" />
+    </int:chain>
+    	
+    <int:channel id="twitterTagUpdateChannel">
+		<int:queue message-store="mongoDbMessageStore" />
+	</int:channel>	
+    
+	<int:inbound-channel-adapter channel="twitterTagUpdateChannel"
+		id="twitterTagUpdateChannels-adapter" method="requestUpdateTagCloudEvent"
+		ref="tweetEventController" auto-startup="true">
+		 <int:poller fixed-rate="600000" />
+	</int:inbound-channel-adapter>
+	
+	<int:service-activator ref="tweetEventController" method="resetTagCloud" input-channel="twitterTagUpdateChannel" output-channel="nullChannel"/>	
+</beans>
