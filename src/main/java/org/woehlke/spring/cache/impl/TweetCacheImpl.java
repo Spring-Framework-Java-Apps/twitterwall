@@ -9,12 +9,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.woehlke.spring.cache.TweetCache;
 import org.woehlke.spring.cache.model.ApiSource;
 import org.woehlke.spring.cache.model.TweetCached;
 import org.woehlke.spring.cache.repository.TweetRepository;
 
 @Service
+@Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 public class TweetCacheImpl implements TweetCache {
 	
 	private Logger LOGGER = LoggerFactory
@@ -23,6 +26,8 @@ public class TweetCacheImpl implements TweetCache {
 	@Inject
 	private TweetRepository tweetRepository;
 	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
 	public void addTwitterMessage(Tweet tweet,
 			ApiSource twitterApiSource) {
 		TweetCached m = transformTweet2TwitterMessage(tweet);
@@ -31,6 +36,7 @@ public class TweetCacheImpl implements TweetCache {
 		LOGGER.debug("cached Tweet: "+m.toString());
 	}
 	
+	@Override
 	public TweetCached transformTweet2TwitterMessage(Tweet tweet) {
 		TweetCached m = new TweetCached();
 		m.setTwitterId(tweet.getId());
@@ -47,6 +53,7 @@ public class TweetCacheImpl implements TweetCache {
 		return m;
 	}
 	
+	@Override
 	public boolean isTweetInCache(long twitterId,ApiSource twitterApiSource) {
 		return tweetRepository.findByTwitterIdAndTwitterApiSource(twitterId, twitterApiSource)!=null;
 	}
@@ -64,6 +71,7 @@ public class TweetCacheImpl implements TweetCache {
 	}
 
 	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
 	public void resetTagCloud() {
 		tweetRepository.deleteAll();
 	}

@@ -1,10 +1,11 @@
 package org.woehlke.spring.eai.impl;
 
-
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
 
 import org.woehlke.spring.cache.TagCache;
 import org.woehlke.spring.cache.TweetCache;
+import org.woehlke.spring.cache.impl.TagCacheImpl;
 import org.woehlke.spring.cache.model.ApiSource;
 import org.woehlke.spring.eai.TweetEventController;
 import org.woehlke.spring.eai.events.RequestTwitterwallEvent;
@@ -40,6 +42,9 @@ import org.woehlke.spring.eai.events.UpdateTagCloudEvent;
 @MessageEndpoint
 public class TweetEventControllerImpl implements TweetEventController {
 
+	private Logger LOGGER = LoggerFactory
+			.getLogger(TweetEventControllerImpl.class);
+
 	@Autowired
 	@Qualifier("controlBusChannel")
 	private DirectChannel controlBusChannel;
@@ -47,62 +52,69 @@ public class TweetEventControllerImpl implements TweetEventController {
 	@Autowired
 	@Qualifier("twitterTemplate")
 	private TwitterTemplate twitterTemplate;
-	
+
 	@Inject
 	private TweetCache tweetCache;
-	
+
 	@Inject
 	private TagCache tagCache;
-	
+
 	@Autowired
-	@Value("${twitter.searchterm}") 
+	@Value("${twitter.searchterm}")
 	private String searchterm;
-	
+
 	@Autowired
-	@Value("${twitter.pagesize}") 
+	@Value("${twitter.pagesize}")
 	private int pagesize;
 
-
-    /* (non-Javadoc)
-      * @see org.woehlke.spring.service.impl.TwitterEventControllerService#startTwitterAdapter()
-      */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.woehlke.spring.service.impl.TwitterEventControllerService#
+	 * startTwitterAdapter()
+	 */
 	@Override
 	public void startTwitterAdapter() {
 		/*
-		final MessagingTemplate m = new MessagingTemplate();
-		final Message<String> operationSearch = MessageBuilder.withPayload(
-				"@twitterSearch.start()").build();
-		final Message<String> operationMentions = MessageBuilder.withPayload(
-				"@twitterMentions.start()").build();
-		final Message<String> operationTimeline = MessageBuilder.withPayload(
-				"@twitterTimeline.start()").build();
-		m.send(controlBusChannel, operationSearch);
-		m.send(controlBusChannel, operationMentions);
-		m.send(controlBusChannel, operationTimeline);
-		*/
+		 * final MessagingTemplate m = new MessagingTemplate(); final
+		 * Message<String> operationSearch = MessageBuilder.withPayload(
+		 * "@twitterSearch.start()").build(); final Message<String>
+		 * operationMentions = MessageBuilder.withPayload(
+		 * "@twitterMentions.start()").build(); final Message<String>
+		 * operationTimeline = MessageBuilder.withPayload(
+		 * "@twitterTimeline.start()").build(); m.send(controlBusChannel,
+		 * operationSearch); m.send(controlBusChannel, operationMentions);
+		 * m.send(controlBusChannel, operationTimeline);
+		 */
 	}
 
-	/* (non-Javadoc)
-	 * @see org.woehlke.spring.service.impl.TwitterEventControllerService#stopTwitterAdapter()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.woehlke.spring.service.impl.TwitterEventControllerService#
+	 * stopTwitterAdapter()
 	 */
 	@Override
 	public void stopTwitterAdapter() {
 		/*
-		final MessagingTemplate m = new MessagingTemplate();
-		final Message<String> operationSearch = MessageBuilder.withPayload(
-				"@twitterSearch.stop()").build();
-		final Message<String> operationMentions = MessageBuilder.withPayload(
-				"@twitterMentions.stop()").build();
-		final Message<String> operationTimeline = MessageBuilder.withPayload(
-				"@twitterTimeline.stop()").build();
-		m.send(controlBusChannel, operationSearch);
-		m.send(controlBusChannel, operationMentions);
-		m.send(controlBusChannel, operationTimeline);
-		*/
+		 * final MessagingTemplate m = new MessagingTemplate(); final
+		 * Message<String> operationSearch = MessageBuilder.withPayload(
+		 * "@twitterSearch.stop()").build(); final Message<String>
+		 * operationMentions = MessageBuilder.withPayload(
+		 * "@twitterMentions.stop()").build(); final Message<String>
+		 * operationTimeline = MessageBuilder.withPayload(
+		 * "@twitterTimeline.stop()").build(); m.send(controlBusChannel,
+		 * operationSearch); m.send(controlBusChannel, operationMentions);
+		 * m.send(controlBusChannel, operationTimeline);
+		 */
 	}
 
-	/* (non-Javadoc)
-	 * @see org.woehlke.spring.service.impl.TwitterEventControllerService#addTwitterMessagesFromSearch(org.springframework.social.twitter.api.Tweet)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.woehlke.spring.service.impl.TwitterEventControllerService#
+	 * addTwitterMessagesFromSearch
+	 * (org.springframework.social.twitter.api.Tweet)
 	 */
 	@Override
 	public Tweet addTwitterMessagesFromSearch(Tweet tweet) {
@@ -112,10 +124,10 @@ public class TweetEventControllerImpl implements TweetEventController {
 
 	@Filter
 	@Override
-	public boolean isTweetFromSearchNotYetCached(Tweet tweet){
-		return !tweetCache.isTweetInCache(tweet.getId(),ApiSource.DEFAULT_SEARCH);
+	public boolean isTweetFromSearchNotYetCached(Tweet tweet) {
+		return !tweetCache.isTweetInCache(tweet.getId(),
+				ApiSource.DEFAULT_SEARCH);
 	}
-	
 
 	@Override
 	public RequestTwitterwallEvent requestTwitterwall() {
@@ -125,17 +137,22 @@ public class TweetEventControllerImpl implements TweetEventController {
 	@Override
 	@Splitter
 	public List<Tweet> fetchTwitterwallFromSearch(RequestTwitterwallEvent e) {
-		return twitterTemplate.searchOperations().search(e.getSearchterm(),pagesize).getTweets();
+		return twitterTemplate.searchOperations()
+				.search(e.getSearchterm(), pagesize).getTweets();
 	}
 
 	@Override
 	public Tweet updateTaglist(Tweet tweet) {
-		tagCache.updateTagsForOneTweetsText(tweet.getText());
+		try {
+			tagCache.updateTagsForOneTweetsText(tweet.getText());
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+		}
 		return tweet;
 	}
-	
+
 	@Override
-	public UpdateTagCloudEvent requestUpdateTagCloudEvent(){
+	public UpdateTagCloudEvent requestUpdateTagCloudEvent() {
 		return new UpdateTagCloudEvent();
 	}
 
