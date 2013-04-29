@@ -32,8 +32,8 @@ public class TweetCacheImpl implements TweetCache {
 			ApiSource twitterApiSource) {
 		TweetCached m = transformTweet2TwitterMessage(tweet);
 		m.setTwitterApiSource(twitterApiSource);
-		m=tweetRepository.saveAndFlush(m);
-		LOGGER.debug("cached Tweet: "+m.toString());
+		m=tweetRepository.save(m);
+		LOGGER.info("cached Tweet: "+m.toString());
 	}
 	
 	@Override

@@ -118,7 +118,11 @@ public class TweetEventControllerImpl implements TweetEventController {
 	 */
 	@Override
 	public Tweet addTwitterMessagesFromSearch(Tweet tweet) {
-		tweetCache.addTwitterMessage(tweet, ApiSource.DEFAULT_SEARCH);
+		try {
+			tweetCache.addTwitterMessage(tweet, ApiSource.DEFAULT_SEARCH);
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+		}
 		return tweet;
 	}
 
@@ -157,8 +161,16 @@ public class TweetEventControllerImpl implements TweetEventController {
 	}
 
 	@Override
-	public void resetTagCloud(UpdateTagCloudEvent e) {
-		tagCache.resetTagCloud();
-		tweetCache.resetTagCloud();
+	public void resetTagCloud(UpdateTagCloudEvent event) {
+		try {
+			tagCache.resetTagCloud();
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+		}
+		try {
+			tweetCache.resetTagCloud();
+		} catch (Exception e) {
+			LOGGER.warn(e.getMessage());
+		}
 	}
 }
