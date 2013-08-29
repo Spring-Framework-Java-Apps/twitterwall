@@ -12,7 +12,7 @@
                                      width="48" height="48">
                                 <b><a href="https://www.twitter.com/${twitterMessage.fromUser}">@<c:out value="${twitterMessage.fromUser}"/></a></b><br />
                                 ${twitterMessage.formattedText}<br/>
-                                [ <c:out value="${twitterMessage.createdAt}"/> | 
+                                [ <c:out value="${twitterMessage.createdAt}"/> |
                                 <c:out value="${twitterMessage.retweetCount}"/> RT ]
                             </td></tr>
                             </c:forEach>

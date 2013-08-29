@@ -1,4 +1,4 @@
-package org.woehlke.spring.cache.impl;
+package org.woehlke.spring.cache.service;
 
 
 import javax.inject.Inject;
@@ -11,8 +11,6 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.woehlke.spring.cache.TweetCache;
-import org.woehlke.spring.cache.model.ApiSource;
 import org.woehlke.spring.cache.model.TweetCached;
 import org.woehlke.spring.cache.repository.TweetRepository;
 
@@ -28,10 +26,8 @@ public class TweetCacheImpl implements TweetCache {
 	
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
-	public void addTwitterMessage(Tweet tweet,
-			ApiSource twitterApiSource) {
+	public void addTwitterMessage(Tweet tweet) {
 		TweetCached m = transformTweet2TwitterMessage(tweet);
-		m.setTwitterApiSource(twitterApiSource);
 		m=tweetRepository.save(m);
 		LOGGER.info("cached Tweet: "+m.toString());
 	}
@@ -54,20 +50,14 @@ public class TweetCacheImpl implements TweetCache {
 	}
 	
 	@Override
-	public boolean isTweetInCache(long twitterId,ApiSource twitterApiSource) {
-		return tweetRepository.findByTwitterIdAndTwitterApiSource(twitterId, twitterApiSource)!=null;
+	public boolean isTweetInCache(long twitterId) {
+		return tweetRepository.findByTwitterId(twitterId)!=null;
 	}
 
 	@Override
-	public Page<TweetCached> getTwitterMessages(ApiSource twitterApiSource,
+	public Page<TweetCached> getTwitterMessages(
 			Pageable pageable) {
-		return tweetRepository.findByTwitterApiSourceOrderByCreatedAtDesc(twitterApiSource, pageable);
-	}
-
-	@Override
-	public Page<TweetCached> getTwitterMessagesForUserId(long userId,
-			Pageable pageable) {
-		return tweetRepository.findByFromUserId(userId, pageable);
+		return tweetRepository.findAll(pageable);
 	}
 
 	@Override

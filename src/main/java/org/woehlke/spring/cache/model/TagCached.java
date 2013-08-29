@@ -31,7 +31,7 @@ public class TagCached {
 	@NotNull
 	private String text;
 
-	private TagCached(){}
+	protected TagCached(){}
 	
 	public TagCached(String text) {
 		super();

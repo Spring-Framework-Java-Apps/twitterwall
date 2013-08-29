@@ -1,4 +1,4 @@
-package org.woehlke.spring.cache.impl;
+package org.woehlke.spring.cache.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.woehlke.spring.cache.TagCache;
 import org.woehlke.spring.cache.model.TagCached;
 import org.woehlke.spring.cache.repository.TagCachedRepository;
 

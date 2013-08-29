@@ -36,19 +36,6 @@ import org.woehlke.spring.eai.events.UpdateTagCloudEvent;
 @MessageEndpoint
 public interface TweetEventController {
 
-	/**
-	 * By default - After application startup, the Spring Integration Twitter
-	 * search-inbound-channel-adapter is stopped. Use this method to start
-	 * the adapter.
-	 */
-	void startTwitterAdapter();
-
-	/**
-	 * Allows for stopping the Spring Integration Twitter
-	 * search-inbound-channel-adapter.
-	 */
-	void stopTwitterAdapter();
-
 	Tweet addTwitterMessagesFromSearch(Tweet tweet);
 	
 	Tweet updateTaglist(Tweet tweet);

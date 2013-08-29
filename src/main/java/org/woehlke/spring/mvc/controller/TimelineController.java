@@ -12,12 +12,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.spring.cache.TagCache;
-import org.woehlke.spring.cache.TweetCache;
-import org.woehlke.spring.cache.model.ApiSource;
+import org.woehlke.spring.cache.service.TagCache;
+import org.woehlke.spring.cache.service.TweetCache;
 import org.woehlke.spring.cache.model.TweetCached;
 import org.woehlke.spring.cache.model.TagCached;
-import org.woehlke.spring.eai.TweetEventController;
 
 
 /**
@@ -28,9 +26,6 @@ import org.woehlke.spring.eai.TweetEventController;
 public class TimelineController {
 
 	private Logger LOGGER = LoggerFactory.getLogger(TimelineController.class);
-
-	@Autowired
-	private TweetEventController tweetEventController;
 	
 	@Autowired
 	private TweetCache tweetCache;
@@ -38,13 +33,15 @@ public class TimelineController {
 	@Autowired
 	private TagCache tagCache;
 
-	@Autowired
 	@Value("${twitter.pagesize}") 
 	private int pagesize;
-	
-	@Autowired
+
 	@Value("${twitter.searchterm}") 
 	private String searchterm;
+
+    private final Pageable pageable = new PageRequest(0,100,Direction.DESC,"createdAt");
+
+    private final Pageable tagCloudSourcePageRequest = new PageRequest(0,100,Direction.DESC,"frequency");
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -54,13 +51,10 @@ public class TimelineController {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("HTTP-Request for /");
 		}
-		Pageable pageable = new PageRequest(0,10);
-		final Page<TweetCached> twitterMessages  = tweetCache.getTwitterMessages(ApiSource.DEFAULT_SEARCH,
-				pageable);
+		final Page<TweetCached> twitterMessages  = tweetCache.getTwitterMessages(pageable);
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info(String.format("Retrieved %s Twitter messages.", twitterMessages.getNumberOfElements()));
 		}
-		Pageable tagCloudSourcePageRequest = new PageRequest(0,100,Direction.DESC,"frequency");
 		Page<TagCached> tagCloudSource = tagCache.getTagCloudSource(tagCloudSourcePageRequest);
 		model.addAttribute("tagCloudSource", tagCloudSource.getContent());
 		model.addAttribute("twitterMessages", twitterMessages.getContent());
@@ -78,14 +72,11 @@ public class TimelineController {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("HTTP-Request for /ajax");
 		}
-		Pageable pageable = new PageRequest(0,pagesize);
-		Page<TweetCached> twitterMessages = tweetCache.getTwitterMessages(ApiSource.DEFAULT_SEARCH,
-				pageable);
+		Page<TweetCached> twitterMessages = tweetCache.getTwitterMessages(pageable);
 		
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info(String.format("Retrieved last %s Twitter messages from cache.", twitterMessages.getNumberOfElements()));
 		}
-		Pageable tagCloudSourcePageRequest = new PageRequest(0,pagesize,Direction.DESC,"frequency");
 		Page<TagCached> tagCloudSource = tagCache.getTagCloudSource(tagCloudSourcePageRequest);
 		model.addAttribute("tagCloudSource", tagCloudSource.getContent());
 		model.addAttribute("twitterMessages", twitterMessages.getContent());

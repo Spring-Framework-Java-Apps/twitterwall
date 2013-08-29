@@ -1,4 +1,4 @@
-package org.woehlke.spring.cache;
+package org.woehlke.spring.cache.service;
 
 
 import org.springframework.data.domain.Page;

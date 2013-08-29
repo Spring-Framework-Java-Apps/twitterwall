@@ -7,7 +7,6 @@
 
 	<persistence-unit name="twitterclient">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>org.woehlke.spring.cache.model.ApiSource</class>
         <class>org.woehlke.spring.cache.model.TagCached</class>
         <class>org.woehlke.spring.cache.model.TweetCached</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>

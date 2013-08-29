@@ -6,12 +6,12 @@
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-classic-skin</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </skin>
     <bannerLeft>
-        <name>Twitter Client</name>
+        <name>Twitterwall</name>
         <src>/images/phasenraum_logo.gif</src>
-        <href>http://shadowfax.fritz.box/p/twitterclient/</href>
+        <href>http://www.thomas-woehlke.de/p/twitterclient/</href>
     </bannerLeft>
     <body>        
         <menu ref="parent"/>

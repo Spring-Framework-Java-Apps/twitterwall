@@ -95,11 +95,6 @@ public class TweetCached {
 	@XmlElement
 	private Integer retweetCount;
 	
-	@Column(nullable=false)
-	@Enumerated(EnumType.ORDINAL)
-	@XmlElement
-	private ApiSource twitterApiSource;
-	
 	@Transient
 	public String getFormattedText(){
 		String returnValue = new String(this.text);
@@ -233,53 +228,38 @@ public class TweetCached {
 		this.retweetCount = retweetCount;
 	}
 
-	public ApiSource getTwitterApiSource() {
-		return twitterApiSource;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TweetCached)) return false;
 
-	public void setTwitterApiSource(ApiSource twitterApiSource) {
-		this.twitterApiSource = twitterApiSource;
-	}
+        TweetCached that = (TweetCached) o;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((twitterApiSource == null) ? 0 : twitterApiSource.hashCode());
-		result = prime * result + (int) (twitterId ^ (twitterId >>> 32));
-		return result;
-	}
+        if (twitterId != that.twitterId) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TweetCached other = (TweetCached) obj;
-		if (twitterApiSource != other.twitterApiSource)
-			return false;
-		if (twitterId != other.twitterId)
-			return false;
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "TwitterMessage [id=" + id + ", twitterId=" + twitterId
-				+ ", text=" + text + ", createdAt=" + createdAt + ", fromUser="
-				+ fromUser + ", profileImageUrl=" + profileImageUrl
-				+ ", toUserId=" + toUserId + ", inReplyToStatusId="
-				+ inReplyToStatusId + ", fromUserId=" + fromUserId
-				+ ", languageCode=" + languageCode + ", source=" + source
-				+ ", retweetCount=" + retweetCount + ", twitterApiSource="
-				+ twitterApiSource + "]";
-	}
+    @Override
+    public int hashCode() {
+        return (int) (twitterId ^ (twitterId >>> 32));
+    }
 
-	
-
+    @Override
+    public String toString() {
+        return "TweetCached{" +
+                "id=" + id +
+                ", twitterId=" + twitterId +
+                ", text='" + text + '\'' +
+                ", createdAt=" + createdAt +
+                ", fromUser='" + fromUser + '\'' +
+                ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", toUserId=" + toUserId +
+                ", inReplyToStatusId=" + inReplyToStatusId +
+                ", fromUserId=" + fromUserId +
+                ", languageCode='" + languageCode + '\'' +
+                ", source='" + source + '\'' +
+                ", retweetCount=" + retweetCount +
+                '}';
+    }
 }
