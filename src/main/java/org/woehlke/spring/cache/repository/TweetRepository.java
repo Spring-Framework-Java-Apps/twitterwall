@@ -8,5 +8,4 @@ import org.woehlke.spring.cache.model.TweetCached;
 public interface TweetRepository extends JpaRepository<TweetCached,Long> {
 
 	TweetCached findByTwitterId(long twitterId);
-	Page<TweetCached> findByFromUserId(long fromUserId,Pageable pageable);
 }

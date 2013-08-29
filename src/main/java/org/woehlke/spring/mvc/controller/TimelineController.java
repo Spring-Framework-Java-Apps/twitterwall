@@ -25,7 +25,7 @@ import org.woehlke.spring.cache.model.TagCached;
 @Controller
 public class TimelineController {
 
-	private Logger LOGGER = LoggerFactory.getLogger(TimelineController.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(TimelineController.class);
 	
 	@Autowired
 	private TweetCache tweetCache;
@@ -39,8 +39,6 @@ public class TimelineController {
 	@Value("${twitter.searchterm}") 
 	private String searchterm;
 
-    private final Pageable pageable = new PageRequest(0,100,Direction.DESC,"createdAt");
-
     private final Pageable tagCloudSourcePageRequest = new PageRequest(0,100,Direction.DESC,"frequency");
 	
 	/**
@@ -51,6 +49,7 @@ public class TimelineController {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("HTTP-Request for /");
 		}
+        Pageable pageable = new PageRequest(0,pagesize,Direction.DESC,"createdAt");
 		final Page<TweetCached> twitterMessages  = tweetCache.getTwitterMessages(pageable);
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info(String.format("Retrieved %s Twitter messages.", twitterMessages.getNumberOfElements()));
@@ -72,6 +71,7 @@ public class TimelineController {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("HTTP-Request for /ajax");
 		}
+        Pageable pageable = new PageRequest(0,pagesize,Direction.DESC,"createdAt");
 		Page<TweetCached> twitterMessages = tweetCache.getTwitterMessages(pageable);
 		
 		if (LOGGER.isInfoEnabled()) {

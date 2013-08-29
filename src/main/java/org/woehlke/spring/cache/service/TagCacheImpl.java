@@ -21,7 +21,7 @@ import org.woehlke.spring.cache.repository.TagCachedRepository;
 @Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 public class TagCacheImpl implements TagCache {
 
-	private Logger LOGGER = LoggerFactory.getLogger(TagCacheImpl.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(TagCacheImpl.class);
 
 	@Inject
 	private TagCachedRepository tagCachedRepository;

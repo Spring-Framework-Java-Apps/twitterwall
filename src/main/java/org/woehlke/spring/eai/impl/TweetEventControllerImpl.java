@@ -24,8 +24,7 @@ import org.woehlke.spring.eai.events.UpdateTagCloudEvent;
 @MessageEndpoint
 public class TweetEventControllerImpl implements TweetEventController {
 
-	private Logger LOGGER = LoggerFactory
-			.getLogger(TweetEventControllerImpl.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(TweetEventControllerImpl.class);
 
 	@Autowired
 	@Qualifier("twitterTemplate")

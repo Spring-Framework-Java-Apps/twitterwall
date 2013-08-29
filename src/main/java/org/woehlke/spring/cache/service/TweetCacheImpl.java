@@ -18,14 +18,13 @@ import org.woehlke.spring.cache.repository.TweetRepository;
 @Transactional(readOnly=true,propagation=Propagation.REQUIRED)
 public class TweetCacheImpl implements TweetCache {
 	
-	private Logger LOGGER = LoggerFactory
-			.getLogger(TweetCacheImpl.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(TweetCacheImpl.class);
 
 	@Inject
 	private TweetRepository tweetRepository;
 	
 	@Override
-	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void addTwitterMessage(Tweet tweet) {
 		TweetCached m = transformTweet2TwitterMessage(tweet);
 		m=tweetRepository.save(m);
@@ -55,13 +54,12 @@ public class TweetCacheImpl implements TweetCache {
 	}
 
 	@Override
-	public Page<TweetCached> getTwitterMessages(
-			Pageable pageable) {
+	public Page<TweetCached> getTwitterMessages(Pageable pageable) {
 		return tweetRepository.findAll(pageable);
 	}
 
 	@Override
-	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void resetTagCloud() {
 		tweetRepository.deleteAll();
 	}
