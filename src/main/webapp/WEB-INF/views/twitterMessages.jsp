@@ -4,7 +4,7 @@
                 <span class="span8">
                     <c:choose>
                         <c:when test="${not empty twitterMessages}">
-                        <table class="table">
+                        <table class="table table-striped table-hover">
                             <c:forEach items="${twitterMessages}" var="twitterMessage">
                                 <tr><td>
                                 <img alt="${twitterMessage.fromUser}"
