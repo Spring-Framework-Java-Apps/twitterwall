@@ -96,6 +96,7 @@ public class TweetCached {
 	@Transient
 	public String getFormattedText(){
 		String returnValue = new String(this.text);
+		try {
 		Pattern regexUrl = Pattern.compile("http\\S+");
 		Pattern regexUser = Pattern.compile("@\\w+");
 		Matcher matcherUrl = regexUrl.matcher(this.text);
@@ -107,6 +108,8 @@ public class TweetCached {
 		while(matcherUser.find()){
 			String user = matcherUser.group();
 			returnValue=returnValue.replaceAll(user, "<a href=\"https://www.twitter.com/"+user+"\">"+user+"</a>");
+		}
+		} catch (Exception e){
 		}
 		return returnValue;
 	}
