@@ -48,6 +48,21 @@ or import Project via STS only
 Setup MySQL Database
 --------------------
 
+* my.cnf:
+
+[client]
+port            = 3306
+socket          = /var/run/mysqld/mysqld.sock
+default-character-set=utf8
+....
+[mysqld]
+character-set-server=utf8
+default-character-set=utf8
+default-collation=utf8_general_ci
+init-connect='SET NAMES utf8'
+character-set-client=utf8
+skip-external-locking
+
 open MySQL-Client and enter: 
 
 CREATE USER 'twitterwall'@'localhost' IDENTIFIED BY 'twitterwallpwd';

@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <%@ include file="/WEB-INF/views/includes/taglibs.jsp"%>
-
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
     <head>
+    	<meta charset="UTF-8">
         <title>Twitterwall</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css'/>" media="screen">
