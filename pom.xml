@@ -15,19 +15,18 @@
 
 	<properties>
 		<org.springframework-version>4.0.1.RELEASE</org.springframework-version>
-		<spring.integration.version>3.0.1.RELEASE</spring.integration.version>
+		<spring.integration.version>4.0.0.M3</spring.integration.version>
 		<spring.social.version>1.1.0.M4</spring.social.version>
-		<spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
-		<spring-data-mongodb.version>1.3.3.RELEASE</spring-data-mongodb.version>
-		<spring-data-commons-core.version>1.6.3.RELEASE</spring-data-commons-core.version>
+		<spring-data-jpa.version>1.5.0.RELEASE</spring-data-jpa.version>
+		<spring-data-mongodb.version>1.4.0.RELEASE</spring-data-mongodb.version>
+		<spring-data-commons-core.version>1.7.0.RELEASE</spring-data-commons-core.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<log4j.version>1.2.16</log4j.version>
 		<junit.version>4.10</junit.version>
 		<maven.scm.version>1.8.1</maven.scm.version>
 		<org.aspectj-version>1.6.12</org.aspectj-version>
-        <hibernate-entitymanager.version>4.0.1.Final</hibernate-entitymanager.version>
+        <hibernate-entitymanager.version>4.3.2.Final</hibernate-entitymanager.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<encoding>UTF-8</encoding>
 	</properties>
 
 	<repositories>
@@ -55,12 +54,12 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
+			<version>1.1.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
+			<version>5.0.3.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -174,6 +173,12 @@
 			<artifactId>spring-instrument</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
 
 		<!-- Spring Integration -->
 
@@ -389,99 +394,66 @@
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-providers</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-providers-svn</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-provider-svnexe</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-provider-svn-commons</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-providers-git</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-provider-gitexe</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-provider-git-commons</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-manager-plexus</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-managers</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-client</artifactId>
                 <version>${maven.scm.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
@@ -503,7 +475,6 @@
                 <configuration>
                     <locales>en</locales>
                     <outputDirectory>target/site</outputDirectory>
-                    <outputEncoding>${encoding}</outputEncoding>
                     <generateReports>true</generateReports>
                 </configuration>
             </plugin>
@@ -568,7 +539,6 @@
                     <linksource>true</linksource>
                     <maxmemory>1024m</maxmemory>
                     <source>1.6</source>
-                    <encoding>${encoding}</encoding>
                 </configuration>
             </plugin>
             <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId>
@@ -579,9 +549,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.10</version>
-                <configuration>
-                    <encoding>${encoding}</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
@@ -609,7 +576,6 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.0.1</version>
                 <configuration>
-                    <sourceEncoding>${encoding}</sourceEncoding>
                     <minimumTokens>100</minimumTokens>
                     <targetJdk>1.6</targetJdk>
                     <excludeRoots>
@@ -622,9 +588,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
                 <version>2.4</version>
-                <configuration>
-                    <encoding>${encoding}</encoding>
-                </configuration>
             </plugin>
 
             <plugin>
