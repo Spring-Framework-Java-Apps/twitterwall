@@ -1,9 +1,9 @@
-package org.woehlke.spring.cache.service;
+package org.woehlke.twitterwall.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.social.twitter.api.Tweet;
-import org.woehlke.spring.cache.model.TweetCached;
+import org.woehlke.twitterwall.entities.TweetCached;
 
 public interface TweetCache {
 	

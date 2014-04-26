@@ -1,4 +1,4 @@
-package org.woehlke.spring.service.impl;
+package org.woehlke.twitterwall.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,15 +12,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.woehlke.spring.cache.service.TweetCache;
-import org.woehlke.spring.cache.model.TweetCached;
+import org.woehlke.twitterwall.service.TweetCache;
+import org.woehlke.twitterwall.entities.TweetCached;
 
 @ContextConfiguration(
 		locations={"/spring-integration-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TwitterEventControllerServiceImplTest {
+public class TweetCacheImplTest {
 
-	private Logger LOGGER = LoggerFactory.getLogger(TwitterEventControllerServiceImplTest.class);
+	private Logger LOGGER = LoggerFactory.getLogger(TweetCacheImplTest.class);
 	
 	@Autowired
 	private TweetCache tweetCache;

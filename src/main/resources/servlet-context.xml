@@ -15,7 +15,7 @@
 
 	<!-- Scans within the base package of the application for @Components to
 		configure as beans -->
-	<context:component-scan base-package="org.woehlke.spring.mvc.controller" />
+	<context:component-scan base-package="org.woehlke.twitterwall.web" />
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />

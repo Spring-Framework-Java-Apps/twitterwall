@@ -1,6 +1,6 @@
-package org.woehlke.spring.eai.events;
+package org.woehlke.twitterwall.eai;
 
-public class RequestTwitterwallEvent extends AbstractEvent{
+public class RequestTwitterwallEvent {
 	
 	private final String searchterm;
 

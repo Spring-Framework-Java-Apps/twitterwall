@@ -1,4 +1,4 @@
-package org.woehlke.spring.cache.service;
+package org.woehlke.twitterwall.service;
 
 
 import javax.inject.Inject;
@@ -11,8 +11,8 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.woehlke.spring.cache.model.TweetCached;
-import org.woehlke.spring.cache.repository.TweetRepository;
+import org.woehlke.twitterwall.entities.TweetCached;
+import org.woehlke.twitterwall.repository.TweetRepository;
 
 @Service
 @Transactional(readOnly=true,propagation=Propagation.REQUIRED)

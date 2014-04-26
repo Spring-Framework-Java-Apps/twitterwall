@@ -1,4 +1,4 @@
-package org.woehlke.spring.cache.model;
+package org.woehlke.twitterwall.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

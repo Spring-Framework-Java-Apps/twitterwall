@@ -1,4 +1,4 @@
-package org.woehlke.spring.mvc.controller;
+package org.woehlke.twitterwall.web;
 
 
 import org.slf4j.Logger;
@@ -12,10 +12,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.spring.cache.service.TagCache;
-import org.woehlke.spring.cache.service.TweetCache;
-import org.woehlke.spring.cache.model.TweetCached;
-import org.woehlke.spring.cache.model.TagCached;
+import org.woehlke.twitterwall.service.TagCache;
+import org.woehlke.twitterwall.service.TweetCache;
+import org.woehlke.twitterwall.entities.TweetCached;
+import org.woehlke.twitterwall.entities.TagCached;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.woehlke.spring.cache.service.impl;
+package org.woehlke.twitterwall.service.impl;
 
 import javax.inject.Inject;
 
@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.woehlke.spring.cache.service.TagCache;
+import org.woehlke.twitterwall.service.TagCache;
 
 @ContextConfiguration(
 		locations={"/spring-integration-context.xml"})

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.woehlke.spring;
+package org.woehlke.twitterwall;
 
 
 

@@ -76,12 +76,12 @@
 		<constructor-arg value="${twitter.accessTokenSecret}" />
 	</bean>
 
-	<jpa:repositories base-package="org.woehlke.spring" />
+	<jpa:repositories base-package="org.woehlke.twitterwall" />
 	 
-	<context:component-scan base-package="org.woehlke.spring" />
+	<context:component-scan base-package="org.woehlke.twitterwall" />
 
 	<bean id="tweetEventController"
-		class="org.woehlke.spring.eai.impl.TweetEventControllerImpl" />
+		class="org.woehlke.twitterwall.eai.TweetPipeline" />
 
 	<int:logging-channel-adapter id="logger"
 		level="INFO"
