@@ -6,7 +6,7 @@
              version="2.0">
 
 	<persistence-unit name="twitterclient">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.woehlke.twitterwall.entities.TagCached</class>
         <class>org.woehlke.twitterwall.entities.TweetCached</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
