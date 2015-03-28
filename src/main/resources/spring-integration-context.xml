@@ -26,7 +26,8 @@
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:property-placeholder location="classpath:/twitterwall.properties" />
-    
+
+	<!--
 	<bean id="mongoDbFactory"
 		class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
 		<constructor-arg>
@@ -39,6 +40,7 @@
 		class="org.springframework.integration.mongodb.store.MongoDbMessageStore">
 		<constructor-arg ref="mongoDbFactory" />
 	</bean>
+	-->
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${javax.persistence.jdbc.driver}"/> 
@@ -93,7 +95,7 @@
 	<int:control-bus id="controlBus" input-channel="controlBusChannel" />
 	
 	<int:channel id="twitterSearchChannel">
-		<int:queue message-store="mongoDbMessageStore" />
+		<int:queue capacity="1000" />
 	</int:channel>
 	<int:inbound-channel-adapter channel="twitterSearchChannel"
 		id="search-inbound-channel-adapter" method="requestTwitterwall"
@@ -101,6 +103,7 @@
 		 <int:poller fixed-rate="60000" />
 	</int:inbound-channel-adapter>
     <int:chain id="searchChain" input-channel="twitterSearchChannel" output-channel="nullChannel">
+		<int:poller fixed-rate="500" />
     	<int:splitter ref="tweetEventController"
 			method="fetchTwitterwallFromSearch" />
     	<int:filter ref="tweetEventController" method="isTweetFromSearchNotYetCached" />
@@ -109,7 +112,7 @@
     </int:chain>
     	
     <int:channel id="twitterTagUpdateChannel">
-		<int:queue message-store="mongoDbMessageStore" />
+		<int:queue capacity="1000" />
 	</int:channel>	
     
 	<int:inbound-channel-adapter channel="twitterTagUpdateChannel"
