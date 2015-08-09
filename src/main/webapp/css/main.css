@@ -6,30 +6,15 @@
 
 #header {
     background-color: #EEEEEE;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-.twitterMessages {
-    list-style: none;
-}
-
-.twitterMessages img {
-    vertical-align: middle;
-}
-
-.twitterMessages li {
-    padding-top: 2px;
-    padding-bottom: 2px;
 }
 
 .wordcloud {
-vertical-align: middle;
-border: 0px solid #036;
-height: 5in;
-margin: 0 auto;
-padding: 0;
-page-break-after: always;
-page-break-inside: avoid;
-width: 3in;
+    vertical-align: middle;
+    border: 0px solid #036;
+    margin: 0 auto;
+    padding: 0;
+    page-break-after: always;
+    page-break-inside: avoid;
+    width: 100%;
+    height: auto;
 }

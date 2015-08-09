@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <%@ include file="/WEB-INF/views/includes/taglibs.jsp"%>
 			<div class="row">
-                <span class="span8">
+                <div class="col-md-8">
                     <c:choose>
                         <c:when test="${not empty twitterMessages}">
                         <table class="table table-striped table-hover">
@@ -21,11 +21,13 @@
                         </c:when>
                         <c:otherwise>No Twitter messages found.</c:otherwise>
                     </c:choose>
-                </span>
-                <span id="wordcloud1" class="wordcloud span4 offset8">
+                </div>
+                <div class="col-md-4">
+                <div id="wordcloud1" class="wordcloud">
 			   	<c:forEach items="${tagCloudSource}" var="tag">
 			        <span data-weight="${tag.frequency}"><c:out value="${tag.text}"/></span>
 			    </c:forEach>
-				</span>
+                </div>
+				</div>
 		</div>
 

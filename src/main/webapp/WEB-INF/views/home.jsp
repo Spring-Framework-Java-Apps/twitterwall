@@ -6,20 +6,22 @@
     	<meta charset="UTF-8">
         <title>Twitterwall</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css'/>" media="screen">
+        <link rel="stylesheet" href="<c:url value='/webjars/bootstrap/3.3.5/css/bootstrap.min.css'/>" media="screen">
         <link rel="stylesheet" href="<c:url value='/css/main.css'/>"  type="text/css">
-		<script src="<c:url value='/js/bootstrap.min.js'/>"></script> 
-		<script src="<c:url value='/js/jquery-1.9.1.min.js'/>"></script>
+		<script src="<c:url value='/webjars/bootstrap/3.3.5/js/bootstrap.min.js'/>"></script>
+		<script src="<c:url value='/webjars/jquery/1.11.1/jquery.min.js'/>"></script>
         <script src="<c:url value='/js/jquery.periodicalupdater.js'/>"></script>
         <script src="<c:url value='/js/jquery.awesomeCloud-0.2.min.js'/>"></script>
     </head>
     <body>
     	<div class="container">
         <div class="row">
-            <div id="header" class="span12">
-                <h1 class="loud">Twitterwall:</h1><h4><c:out value="${twitterSearchterm}"/></h4>
+            <div id="header" class="col-md-12">
+                <h1>Twitterwall:</h1><h4><c:out value="${twitterSearchterm}"/></h4>
             </div>
-            <div id="content" class="span12">
+        </div>
+         <div class="row">
+            <div id="content" class="col-md-12">
                 <%@ include file="/WEB-INF/views/twitterMessages.jsp"%>
             </div>
         </div>
