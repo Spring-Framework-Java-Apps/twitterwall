@@ -6,7 +6,7 @@
         <author email="thomas@woehlke.org">Thomas Woehlke</author>
     </properties>
     <body>
-       
+
        <release version="1.1.2" date="2013-04-25" description="Release">
        		<action dev="tw" type="add" issue="2">
             	#2 released to github
