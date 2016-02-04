@@ -101,7 +101,7 @@ Run the Twitterwall:
 * in the shell cd into project directory twittwewall
 * mvn clean install tomcat7:run
 * open browser: http://localhost:8080/twitterwall/
-* please submit Bugs or Feature Requests to https://github.com/phasenraum2010/logfileloader/issues?state=open
+* please submit Bugs or Feature Requests to https://github.com/phasenraum2010/twitterwall/issues?state=open
 
 
 

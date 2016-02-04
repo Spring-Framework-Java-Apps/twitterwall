@@ -14,8 +14,8 @@
 	</prerequisites>
 
 	<properties>
-		<org.springframework-version>4.0.6.RELEASE</org.springframework-version>
-		<spring.integration.version>4.0.3.RELEASE</spring.integration.version>
+		<org.springframework-version>4.2.3.RELEASE</org.springframework-version>
+		<spring.integration.version>4.2.3.RELEASE</spring.integration.version>
 		<spring.social.version>1.1.0.RELEASE</spring.social.version>
 		<spring-data-jpa.version>1.5.0.RELEASE</spring-data-jpa.version>
 		<spring-data-mongodb.version>1.4.0.RELEASE</spring-data-mongodb.version>
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.22</version>
+			<version>5.1.35</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -257,7 +257,7 @@
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-core</artifactId>
-			<version>${spring.social.version}</version>
+			<version>1.1.4.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
@@ -267,7 +267,7 @@
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-web</artifactId>
-			<version>${spring.social.version}</version>
+			<version>1.1.4.RELEASE</version>
 		</dependency>
 	
         <dependency>
@@ -549,6 +549,41 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
             </plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.4.16</version>
+				<configuration>
+					<container>
+						<containerId>tomcat8x</containerId>
+						<zipUrlInstaller>
+							<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.zip</url>
+						</zipUrlInstaller>
+					</container>
+					<configuration>
+						<home>${project.build.directory}/tomcat8x/container</home>
+					</configuration>
+					<deployables>
+						<deployable>
+							<properties>
+								<context>twitterwall</context>
+							</properties>
+						</deployable>
+					</deployables>
+				</configuration>
+			</plugin>
+
         </plugins>
     </build>
     <reporting>
@@ -576,7 +611,7 @@
                              </links> -->
                     <linksource>true</linksource>
                     <maxmemory>1024m</maxmemory>
-                    <source>1.6</source>
+                    <source>1.8</source>
                 </configuration>
             </plugin>
             <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId>
@@ -615,7 +650,7 @@
                 <version>3.6</version>
                 <configuration>
                     <minimumTokens>100</minimumTokens>
-                    <targetJdk>1.6</targetJdk>
+                    <targetJdk>1.8</targetJdk>
                     <excludeRoots>
                         <excludeRoot>target</excludeRoot>
                     </excludeRoots>
