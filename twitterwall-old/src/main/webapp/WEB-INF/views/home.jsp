@@ -7,7 +7,7 @@
         <title>Twitterwall</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <link rel="stylesheet" href="<c:url value='/webjars/bootstrap/3.3.5/css/bootstrap.min.css'/>" media="screen">
-        <link rel="stylesheet" href="<c:url value='/css/main.css'/>"  type="text/css">
+        <link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 		<script src="<c:url value='/webjars/bootstrap/3.3.5/js/bootstrap.min.js'/>"></script>
 		<script src="<c:url value='/webjars/jquery/1.11.1/jquery.min.js'/>"></script>
         <script src="<c:url value='/js/jquery.periodicalupdater.js'/>"></script>
