@@ -336,7 +336,7 @@
 			<!-- necessary for Maven 2 compatibility -->
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-utils</artifactId>
-			<version>3.0.7</version>
+			<version>3.0.16</version>
 		</dependency>
 
 		<dependency>
