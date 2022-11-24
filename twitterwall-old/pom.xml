@@ -25,7 +25,7 @@
 		<junit.version>4.10</junit.version>
 		<maven.scm.version>1.9.4</maven.scm.version>
 		<org.aspectj-version>1.6.12</org.aspectj-version>
-        <hibernate-entitymanager.version>4.3.2.Final</hibernate-entitymanager.version>
+        <hibernate-entitymanager.version>5.3.20.Final</hibernate-entitymanager.version>
 		<webjars-bootstrap.version>3.3.5</webjars-bootstrap.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
